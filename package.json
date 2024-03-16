@@ -29,7 +29,8 @@
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.4.3",
     "@turf/turf": "^6.5.0",
-    "convert-units": "^2.3.4"
+    "convert-units": "^2.3.4",
+    "proj4": "^2.10.0"
   },
   "devDependencies": {
     "webpack": "^5.75.0",

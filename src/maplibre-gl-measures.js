@@ -1,6 +1,6 @@
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import * as turf from "@turf/turf";
-
+import proj4 from "proj4";
 import convert from 'convert-units';
 
 const DRAW_LABELS_SOURCE_ID = "source-draw-labels";
@@ -436,6 +436,28 @@ export default class MeasuresControl {
     }
   }
 
+  /**
+   * Handle optional projection
+   */
+  _handleProjection() {
+    if (!(this.options?.projection?.source && this.options?.projection?.target)) {
+      console.log("Projection not given")
+      return;
+    }
+
+    if (feature.geometry.type === 'Polygon') {
+      // feature.geometry.coordinates[0] = feature.geometry.coordinates[0].map(coord =>
+      //   proj4('EPSG:4326', 'EPSG:3857', coord)
+      // );
+     console.log("Project Polygon");
+    } else if (feature.geometry.type === 'LineString') {
+      console.log("Project LineString");
+      // feature.geometry.coordinates = feature.geometry.coordinates.map(coord =>
+      //   proj4('EPSG:4326', 'EPSG:3857', coord)
+      // );
+    }
+  }
+
   _updateLabels() {
     let source = this._map.getSource(DRAW_LABELS_SOURCE_ID);
     if (!source && this._map) {
@@ -461,6 +483,9 @@ export default class MeasuresControl {
     let drawnFeatures = this._drawCtrl.getAll();
     drawnFeatures.features.forEach((feature) => {
       try {
+        // Handle optional feature projection in options
+        this._handleProjection(feature);
+
         if (feature.geometry.type == "Polygon") {
           let area = this._formatMeasure(turf.area(feature), true);
           let centroid = turf.centroid(feature);
