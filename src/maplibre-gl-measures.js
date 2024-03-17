@@ -251,7 +251,7 @@ export default class MeasuresControl {
 
   convertUnit(measure, fromUnit, toUnit) {
     console.log("ConvertUnit0", measure, fromUnit, toUnit);
-    const measureConvert = convert(measure).from(fromUnit).to(toUnit).val;
+    const measureConvert = convert(measure).from(fromUnit).to(toUnit);
     console.log("ConvertUnit1", measureConvert, fromUnit, toUnit);
     const output = this._getLocaleNumber(measureConvert);
     console.log("ConvertUnit2", measureConvert, fromUnit, toUnit, output);
