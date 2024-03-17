@@ -439,7 +439,7 @@ export default class MeasuresControl {
   /**
    * Handle optional projection
    */
-  _handleProjection() {
+  _handleProjection(feature) {
     if (!(this.options?.projection?.source && this.options?.projection?.target)) {
       console.log("Projection not given")
       return;
@@ -449,9 +449,9 @@ export default class MeasuresControl {
       // feature.geometry.coordinates[0] = feature.geometry.coordinates[0].map(coord =>
       //   proj4('EPSG:4326', 'EPSG:3857', coord)
       // );
-     console.log("Project Polygon");
+     console.log("Project Polygon", feature, feature.geometry);
     } else if (feature.geometry.type === 'LineString') {
-      console.log("Project LineString");
+      console.log("Project LineString", feature, feature.geometry);
       // feature.geometry.coordinates = feature.geometry.coordinates.map(coord =>
       //   proj4('EPSG:4326', 'EPSG:3857', coord)
       // );
