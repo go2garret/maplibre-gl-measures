@@ -18,6 +18,13 @@ export default class MeasuresControl {
       useGrouping: "always",
     };
     this._drawCtrl = new MapboxDraw({
+      // Disable dragging drawn features
+      // https://github.com/mapbox/mapbox-gl-draw/issues/667
+      modes: {
+        ...MapboxDraw.modes,
+        simple_select: { ...MapboxDraw.modes.simple_select, dragMove() {} },
+        direct_select: { ...MapboxDraw.modes.direct_select, dragFeature() {} },
+      },
       displayControlsDefault: false,
       styles: [
         // ACTIVE (being drawn)
