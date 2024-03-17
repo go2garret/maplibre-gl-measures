@@ -250,14 +250,15 @@ export default class MeasuresControl {
   // }
 
   convertUnit(measure, fromUnit, toUnit) {
-    console.log("ConvertUnit", measure, fromUnit, toUnit);
     const measureConvert = convert(measure).from(fromUnit).to(toUnit).val;
+    console.log("ConvertUnit1", measureConvert, fromUnit, toUnit);
     const output = this._getLocaleNumber(measureConvert);
-    console.log("ConvertUnit", measureConvert, fromUnit, toUnit, output);
+    console.log("ConvertUnit2", measureConvert, fromUnit, toUnit, output);
     return output;
   }
 
   _getLocaleNumber(val) {
+    console.log("getLocaleNumber", val);
     // Format without grouping separator
     let formattedNumber = val.toLocaleString(undefined, {
       minimumFractionDigits: 2,
