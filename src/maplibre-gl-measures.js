@@ -300,7 +300,7 @@ export default class MeasuresControl {
         btn.classList.add('maplibre-gl-measures-button-length')
         btn.addEventListener("click", () => {      
           this._drawCtrl.changeMode(mode);
-          this.showUnitsSelect('area');
+          this.showUnitsSelect('length');
         });
         break;
       case this._drawCtrl.modes.DRAW_POLYGON:
@@ -322,7 +322,7 @@ export default class MeasuresControl {
         btn.classList.add('maplibre-gl-measures-button-area')
         btn.addEventListener("click", () => {      
           this._drawCtrl.changeMode(mode);
-          this.showUnitsSelect('length');
+          this.showUnitsSelect('area');
         });
         break;
     }
@@ -364,14 +364,14 @@ export default class MeasuresControl {
   showUnitsSelect(mode) {
     console.log("Show select mode", mode);
     if (mode == null) {
-      document.querySelector('.maplibre-gl-measures-select-area').style.visibility = 'hidden';
-      document.querySelector('.maplibre-gl-measures-select-length').style.visibility = 'hidden';
+      document.querySelector('.maplibre-gl-measures-select-area').style.display = 'none';
+      document.querySelector('.maplibre-gl-measures-select-length').style.display = 'none';
     } else if (mode == 'area') {
-      document.querySelector('.maplibre-gl-measures-select-area').style.visibility = 'visible';
-      document.querySelector('.maplibre-gl-measures-select-length').style.visibility = 'hidden';
+      document.querySelector('.maplibre-gl-measures-select-area').style.display = 'block';
+      document.querySelector('.maplibre-gl-measures-select-length').style.display = 'none';
     } else if (mode == 'length') {
-      document.querySelector('.maplibre-gl-measures-select-area').style.visibility = 'hidden';
-      document.querySelector('.maplibre-gl-measures-select-length').style.visibility = 'visible';
+      document.querySelector('.maplibre-gl-measures-select-area').style.display = 'none';
+      document.querySelector('.maplibre-gl-measures-select-length').style.display = 'block';
     }
   }
 
@@ -379,8 +379,8 @@ export default class MeasuresControl {
     const select = document.createElement('select');
     // Add class
     select.classList.add('maplibre-gl-measures-select-area');
-    // Set not visible by default
-    select.style.visibility = 'hidden';
+    // Set display none by default
+    select.style.display = 'none';
     
     const options = [
         { value: 'ft2', label: 'ft²' },
@@ -407,8 +407,8 @@ export default class MeasuresControl {
     const select = document.createElement('select');
     // Add class
     select.classList.add('maplibre-gl-measures-select-length');
-    // Set not visible by default
-    select.style.visibility = 'hidden';
+    // Set display none by default
+    select.style.display = 'none';
     
     const options = [
         { value: 'ft', label: 'ft' },
