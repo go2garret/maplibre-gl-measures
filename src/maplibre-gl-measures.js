@@ -183,55 +183,75 @@ export default class MeasuresControl {
   }
 
   _initControl() {
+    //Add control container
     this._container = document.createElement("div");
-    this._container.className =
-      "maplibregl-ctrl mapboxgl-ctrl maplibregl-measures maplibregl-ctrl-group mapboxgl-ctrl-group";
-
+    this._container.className = "maplibregl-ctrl mapboxgl-ctrl maplibregl-measures maplibregl-ctrl-group mapboxgl-ctrl-group";
+    // Add header
+    const header = document.createElement("div");
+    header.classList.add("maplibregl-measures-header");
+    header.style.display = 'flex';
+    header.style['align-items'] = 'center';
+    this._container.appendChild(header);
+    // Add optional title
+    if (this.options?.title && this.options?.title != undefined) {
+      const title = document.createElement('h3');
+      title.innerHTML = this.options.title;
+      header.appendChild(title);
+    }
+    // Add select unit options
+    this.initLengthUnitsSelect();
+    this.initAreaUnitsSelect();
+    // Add draw buttons
     this.initDrawBtn(this._drawCtrl.modes.DRAW_LINE_STRING);
     this.initDrawBtn(this._drawCtrl.modes.DRAW_POLYGON);
     this.initClearBtn();
   }
 
-  _formatMeasure(dist, isAreaMeasurement = false) {
-    if (this.options?.units == "imperial") {
-      return isAreaMeasurement
-        ? this._formatAreaToImperialSystem(dist)
-        : this._formatToImperialSystem(dist);
-    } else {
-      return isAreaMeasurement
-        ? this._formatAreaToMetricSystem(dist)
-        : this._formatToMetricSystem(dist);
-    }
-  }
+  // _formatMeasure(dist, isAreaMeasurement = false) {
+  //   if (this.options?.units == "imperial") {
+  //     return isAreaMeasurement
+  //       ? this._formatAreaToImperialSystem(dist)
+  //       : this._formatToImperialSystem(dist);
+  //   } else {
+  //     return isAreaMeasurement
+  //       ? this._formatAreaToMetricSystem(dist)
+  //       : this._formatToMetricSystem(dist);
+  //   }
+  // }
 
-  // area in sqm
-  _formatAreaToMetricSystem(dist) {
-    let measure = convert(dist).from("m2").toBest({ system: "metric" });
-    let unit = measure.unit.replaceAll("2", "²");
-    let val = this._getLocaleNumber(measure.val);
-    return `${val} ${unit}`;
-  }
+  // // area in sqm
+  // _formatAreaToMetricSystem(dist) {
+  //   let measure = convert(dist).from("m2").toBest({ system: "metric" });
+  //   let unit = measure.unit.replaceAll("2", "²");
+  //   let val = this._getLocaleNumber(measure.val);
+  //   return `${val} ${unit}`;
+  // }
 
-  // area in sqm
-  _formatAreaToImperialSystem(dist) {
-    let measure = convert(dist).from("m2").to("mi2");
-    measure = convert(measure).from("mi2").toBest({ system: "imperial" });
-    let unit = measure.unit.replaceAll("2", "²");
-    let val = this._getLocaleNumber(measure.val);
-    return `${val} ${unit}`;
-  }
+  // // area in sqm
+  // _formatAreaToImperialSystem(dist) {
+  //   let measure = convert(dist).from("m2").to("mi2");
+  //   measure = convert(measure).from("mi2").toBest({ system: "imperial" });
+  //   let unit = measure.unit.replaceAll("2", "²");
+  //   let val = this._getLocaleNumber(measure.val);
+  //   return `${val} ${unit}`;
+  // }
 
-  _formatToMetricSystem(dist) {
-    let measure = convert(dist).from("m").toBest({ system: "metric" });
-    let val = this._getLocaleNumber(measure.val);
-    return `${val} ${measure.unit}`;
-  }
+  // _formatToMetricSystem(dist) {
+  //   let measure = convert(dist).from("m").toBest({ system: "metric" });
+  //   let val = this._getLocaleNumber(measure.val);
+  //   return `${val} ${measure.unit}`;
+  // }
 
-  _formatToImperialSystem(dist) {
-    let measure = convert(dist).from("m").to("mi");
-    measure = convert(measure).from("mi").toBest({ system: "imperial" });
-    let val = this._getLocaleNumber(measure.val);
-    return `${val} ${measure.unit}`;
+  // _formatToImperialSystem(dist) {
+  //   let measure = convert(dist).from("m").to("mi");
+  //   measure = convert(measure).from("mi").toBest({ system: "imperial" });
+  //   let val = this._getLocaleNumber(measure.val);
+  //   return `${val} ${measure.unit}`;
+  // }
+
+  convertUnit(measure, fromUnit, toUnit) {
+    const measureConvert = convert(measure).from(fromUnit).to(toUnit).val;
+    return this._getLocaleNumber(measureConvert);
   }
 
   _getLocaleNumber(val) {
@@ -272,6 +292,7 @@ export default class MeasuresControl {
                    c26.539,45.363,53.948,92.117,85.035,111.829V384c0,4.719,3.823,8.533,8.533,8.533H384c4.71,0,8.533-3.814,8.533-8.533v-20.096
                    c58.539-29.158,75.981-141.21,92.979-295.637h17.954c4.71,0,8.533-3.814,8.533-8.533v-51.2C512,3.814,508.177,0,503.467,0z"/>
            </svg>`;
+        btn.classList.add('maplibre-gl-measures-button-length')
         break;
       case this._drawCtrl.modes.DRAW_POLYGON:
         btn.title = this.options?.lang?.areaMeasurementButtonTitle ?? "";
@@ -289,10 +310,13 @@ export default class MeasuresControl {
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M34.9188 19.028L25.9188 12.5994L27.0812 10.9719L36.0812 17.4005L34.9188 19.028ZM21.7844 12.8114L13.0812 19.028L11.9187 17.4005L20.6219 11.1839L21.7844 12.8114ZM11.6428 22.783L14.3095 34.783L12.3571 35.2169L9.69047 23.2169L11.6428 22.783ZM33.6905 34.783L36.246 23.283L38.1984 23.7169L35.6428 35.2169L33.6905 34.783ZM17 36.9999H31V38.9999H17V36.9999Z" fill="#333333"/>
                 </svg>
                 `;
+        btn.classList.add('maplibre-gl-measures-button-area')
         break;
     }
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", () => {      
       this._drawCtrl.changeMode(mode);
+      const modeForSelect = this._drawCtrl.modes.DRAW_LINE_STRING ? 'length' : 'area';
+      this.showUnitsSelect(modeForSelect);
     });
     this._container.appendChild(btn);
   }
@@ -324,8 +348,79 @@ export default class MeasuresControl {
     btn.addEventListener("click", () => {
       this._drawCtrl.deleteAll();
       this._updateLabels();
+      this.showUnitsSelect(null);
     });
     this._container.appendChild(btn);
+  }
+
+  showUnitsSelect(mode) {
+    if (mode == null) {
+      document.querySelector('.maplibre-gl-measures-select-area').style.visibility = 'hidden';
+      document.querySelector('.maplibre-gl-measures-select-length').style.visibility = 'hidden';
+    } else if (mode == 'area') {
+      document.querySelector('.maplibre-gl-measures-select-area').style.visibility = 'visible';
+      document.querySelector('.maplibre-gl-measures-select-length').style.visibility = 'hidden';
+    } else if (mode == 'length') {
+      document.querySelector('.maplibre-gl-measures-select-area').style.visibility = 'hidden';
+      document.querySelector('.maplibre-gl-measures-select-length').style.visibility = 'visible';
+    }
+  }
+
+  initAreaUnitsSelect() {
+    const select = document.createElement('select');
+    // Add class
+    select.classList.add('maplibre-gl-measures-select-area');
+    // Set not visible by default
+    select.style.visibility = 'hidden';
+    
+    const options = [
+        { value: 'ft2', label: 'ft²' },
+        { value: 'm2', label: 'm²' },
+        { value: 'km2', label: 'km²' },
+        { value: 'mi2', label: 'mi²' },
+        { value: 'ac2', label: 'ac²' },
+    ];
+
+    options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option.value;
+        optionElement.textContent = option.label;
+        if (optionElement.value === 'ft2') {
+          optionElement.setAttribute('selected', 'selected');
+        }
+        select.appendChild(optionElement);
+    });
+
+    const header = document.querySelector('.maplibregl-measures-header');
+    header.appendChild(select);
+  }
+
+  initLengthUnitsSelect() {
+    const select = document.createElement('select');
+    // Add class
+    select.classList.add('maplibre-gl-measures-select-length');
+    // Set not visible by default
+    select.style.visibility = 'hidden';
+    
+    const options = [
+        { value: 'ft', label: 'ft' },
+        { value: 'm', label: 'm' },
+        { value: 'km', label: 'km' },
+        { value: 'mi', label: 'mi' },
+    ];
+
+    options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option.value;
+        optionElement.textContent = option.label;
+        if (optionElement.value === 'ft') {
+          optionElement.setAttribute('selected', 'selected');
+        }
+        select.appendChild(optionElement);
+    });
+
+    const header = document.querySelector('.maplibregl-measures-header');
+    header.appendChild(select);
   }
 
   _registerEvents() {
@@ -460,23 +555,34 @@ export default class MeasuresControl {
     // Generate features from what we have on the drawControl:
     let drawnFeatures = this._drawCtrl.getAll();
     drawnFeatures.features.forEach((feature) => {
-      try {
+      try {        
         if (feature.geometry.type == "Polygon") {
-          let area = this._formatMeasure(turf.area(feature), true);
+          // Convert Area
+          let unitSelected = document.querySelector('.maplibre-gl-measures-area').value;
+          let area = (turf.area(feature));
+          let areaConverted = this.convertUnit(area, 'm2', unitSelected);
+          // Add properties to feature centroid
           let centroid = turf.centroid(feature);
-          let measurement = `${area}`;
           centroid.properties = {
-            measurement,
+            area: areaConverted,
+            unit: unitSelected,
+            measurement: `${lengthConverted} ${unitSelected}`
           };
           features.push(centroid);
-        } else if (feature.geometry.type == "LineString") {
+        } 
+        else if (feature.geometry.type == "LineString") {
           let segments = turf.lineSegment(feature);
           segments.features.forEach((segment) => {
+            // Convert Length
+            let unitSelected = document.querySelector('.maplibre-gl-measures-length').value;
+            let length = (turf.length(segment) * 1000); //km to m
+            let lengthConverted = this.convertUnit(length, 'm', unitSelected);
+            // Add properties to feature centroid
             let centroid = turf.centroid(segment);
-            let lineLength = this._formatMeasure(turf.length(segment) * 1000); //km to m
-            let measurement = `${lineLength}`;
             centroid.properties = {
-              measurement,
+              length: lengthConverted,
+              unit: unitSelected,
+              measurement: `${lengthConverted} ${unitSelected}`
             };
             features.push(centroid);
           });
