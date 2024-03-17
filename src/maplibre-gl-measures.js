@@ -176,8 +176,8 @@ export default class MeasuresControl {
 
   onAdd(map) {
     this._map = map;
-    this._initControl();
     this._map.addControl(this._drawCtrl, "top-left");
+    this._initControl();
     this._registerEvents();
     return this._container;
   }
@@ -187,16 +187,16 @@ export default class MeasuresControl {
     this._container = document.createElement("div");
     this._container.className = "maplibregl-ctrl mapboxgl-ctrl maplibregl-measures maplibregl-ctrl-group mapboxgl-ctrl-group";
     // Add header
-    const header = document.createElement("div");
-    header.classList.add("maplibregl-measures-header");
-    header.style.display = 'flex';
-    header.style['align-items'] = 'center';
-    this._container.appendChild(header);
+    this._header = document.createElement("div");
+    this._header.classList.add("maplibregl-measures-header");
+    this._header.style.display = 'flex';
+    this._header.style['align-items'] = 'center';
+    this._container.appendChild(this._header);
     // Add optional title
     if (this.options?.title && this.options?.title != undefined) {
       const title = document.createElement('h3');
       title.innerHTML = this.options.title;
-      header.appendChild(title);
+      this._header.appendChild(title);
     }
     // Add select unit options
     this.initLengthUnitsSelect();
@@ -391,8 +391,7 @@ export default class MeasuresControl {
         select.appendChild(optionElement);
     });
 
-    const header = document.querySelector('.maplibregl-measures-header');
-    header.appendChild(select);
+    this._header.appendChild(select);
   }
 
   initLengthUnitsSelect() {
@@ -419,8 +418,7 @@ export default class MeasuresControl {
         select.appendChild(optionElement);
     });
 
-    const header = document.querySelector('.maplibregl-measures-header');
-    header.appendChild(select);
+    this._header.appendChild(select);
   }
 
   _registerEvents() {
