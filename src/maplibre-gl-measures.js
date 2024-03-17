@@ -571,7 +571,7 @@ export default class MeasuresControl {
           let areaConverted = this.convertUnit(area, 'm2', unitSelected);
           // Add properties to feature centroid
           let centroid = turf.centroid(feature);
-          let measurement = `${areaConverted}`;
+          let measurement = `${areaConverted} ${unitSelected}`;
           centroid.properties = {
             measurement
           };
@@ -587,7 +587,7 @@ export default class MeasuresControl {
             let lengthConverted = this.convertUnit(length, 'm', unitSelected);
             // Add properties to feature centroid
             let centroid = turf.centroid(segment);
-            let measurement = `${lengthConverted}`;
+            let measurement = `${lengthConverted} ${unitSelected}`;
             centroid.properties = {
               measurement
             };
