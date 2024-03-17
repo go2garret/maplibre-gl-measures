@@ -257,16 +257,12 @@ export default class MeasuresControl {
   // }
 
   convertUnit(measure, fromUnit, toUnit) {
-    console.log("ConvertUnit0", measure, fromUnit, toUnit);
     const measureConvert = convert(measure).from(fromUnit).to(toUnit);
-    console.log("ConvertUnit1", measureConvert, fromUnit, toUnit);
     const output = this._getLocaleNumber(measureConvert);
-    console.log("ConvertUnit2", measureConvert, fromUnit, toUnit, output);
     return output;
   }
 
   _getLocaleNumber(val) {
-    console.log("getLocaleNumber", val);
     // Format without grouping separator
     let formattedNumber = val.toLocaleString(undefined, {
       minimumFractionDigits: 2,
@@ -369,7 +365,6 @@ export default class MeasuresControl {
   }
 
   showUnitsSelect(mode) {
-    console.log("Show select mode", mode);
     if (mode == null) {
       document.querySelector('.maplibre-gl-measures-select-area').style.display = 'none';
       document.querySelector('.maplibre-gl-measures-select-length').style.display = 'none';
@@ -592,7 +587,6 @@ export default class MeasuresControl {
           // Convert Area
           let unitSelected = document.querySelector('.maplibre-gl-measures-select-area').value;
           let area = (turf.area(feature));
-          console.log("area selected", unitSelected, area);
           let areaConverted = this.convertUnit(area, 'm2', unitSelected);
           // Add properties to feature centroid
           let centroid = turf.centroid(feature);
@@ -608,7 +602,6 @@ export default class MeasuresControl {
             // Convert Length
             let unitSelected = document.querySelector('.maplibre-gl-measures-select-length').value;
             let length = (turf.length(segment) * 1000); //km to m
-            console.log("length selected", unitSelected, length);
             let lengthConverted = this.convertUnit(length, 'm', unitSelected);
             // Add properties to feature centroid
             let centroid = turf.centroid(segment);
