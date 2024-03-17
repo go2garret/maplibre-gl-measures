@@ -446,8 +446,8 @@ export default class MeasuresControl {
       this._map.on("draw.delete", this._updateLabels.bind(this));
 
       // Create a debounced version of _updateLabels and _handleOnRender
-      const debouncedUpdateLabels = debounce(this._updateLabels, 200);
-      const debouncedHandleOnRender = debounce(this._handleOnRender, 200);
+      const debouncedUpdateLabels = this.debounce(this._updateLabels, 200);
+      const debouncedHandleOnRender = this.debounce(this._handleOnRender, 200);
 
       this._map.on("draw.render", () => {
         debouncedUpdateLabels();
