@@ -401,6 +401,8 @@ export default class MeasuresControl {
         select.appendChild(optionElement);
     });
 
+    select.addEventListener('change', this._updateLabels.bind(this));
+
     this._header.appendChild(select);
   }
 
