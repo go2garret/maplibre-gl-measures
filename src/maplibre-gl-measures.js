@@ -560,7 +560,7 @@ export default class MeasuresControl {
       try {        
         if (feature.geometry.type == "Polygon") {
           // Convert Area
-          let unitSelected = document.querySelector('.maplibre-gl-measures-area').value;
+          let unitSelected = document.querySelector('.maplibre-gl-measures-select-area').value;
           console.log("area selected", unitSelected);
           let area = (turf.area(feature));
           let areaConverted = this.convertUnit(area, 'm2', unitSelected);
@@ -576,7 +576,7 @@ export default class MeasuresControl {
           let segments = turf.lineSegment(feature);
           segments.features.forEach((segment) => {
             // Convert Length
-            let unitSelected = document.querySelector('.maplibre-gl-measures-length').value;
+            let unitSelected = document.querySelector('.maplibre-gl-measures-select-length').value;
             console.log("length selected", unitSelected);
             let length = (turf.length(segment) * 1000); //km to m
             let lengthConverted = this.convertUnit(length, 'm', unitSelected);
