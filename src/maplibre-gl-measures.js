@@ -298,6 +298,10 @@ export default class MeasuresControl {
                    c58.539-29.158,75.981-141.21,92.979-295.637h17.954c4.71,0,8.533-3.814,8.533-8.533v-51.2C512,3.814,508.177,0,503.467,0z"/>
            </svg>`;
         btn.classList.add('maplibre-gl-measures-button-length')
+        btn.addEventListener("click", () => {      
+          this._drawCtrl.changeMode(mode);
+          this.showUnitsSelect('area');
+        });
         break;
       case this._drawCtrl.modes.DRAW_POLYGON:
         btn.title = this.options?.lang?.areaMeasurementButtonTitle ?? "";
@@ -316,18 +320,12 @@ export default class MeasuresControl {
                 </svg>
                 `;
         btn.classList.add('maplibre-gl-measures-button-area')
+        btn.addEventListener("click", () => {      
+          this._drawCtrl.changeMode(mode);
+          this.showUnitsSelect('length');
+        });
         break;
     }
-    btn.addEventListener("click", () => {      
-      this._drawCtrl.changeMode(mode);
-      console.log(mode, this._drawCtrl.modes.DRAW_LINE_STRING, this._drawCtrl.modes.DRAW_POLYGON);
-      const modeForSelect = this._drawCtrl.modes.DRAW_LINE_STRING ? 'length' : 'area';
-      try {
-        this.showUnitsSelect(modeForSelect);
-      } catch(e) {
-        console.error(e);
-      }      
-    });
     this._container.appendChild(btn);
   }
 
