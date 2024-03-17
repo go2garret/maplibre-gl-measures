@@ -445,6 +445,8 @@ export default class MeasuresControl {
       return;
     }
 
+    console.log("Project feature", feature);
+
     if (feature.geometry.type === 'Polygon') {
       // feature.geometry.coordinates[0] = feature.geometry.coordinates[0].map(coord =>
       //   proj4('EPSG:4326', 'EPSG:3857', coord)
