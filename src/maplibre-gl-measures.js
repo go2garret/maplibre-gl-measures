@@ -465,7 +465,7 @@ export default class MeasuresControl {
             this.options?.style?.text?.font ?? "Klokantech Noto Sans Bold",
           ],
           "text-field": ["get", "measurement"],
-          "text-variable-anchor": ["top", "bottom", "left", "right"],
+          "text-anchor": ["center"],
           "text-radial-offset": this.options?.style?.text?.radialOffset ?? 0.5,
           "text-justify": "auto",
           "text-letter-spacing":
