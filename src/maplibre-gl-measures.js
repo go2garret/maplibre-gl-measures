@@ -176,8 +176,8 @@ export default class MeasuresControl {
 
   onAdd(map) {
     this._map = map;
-    this._map.addControl(this._drawCtrl, "top-left");
     this._initControl();
+    this._map.addControl(this._drawCtrl, "top-left");
     this._registerEvents();
     return this._container;
   }
