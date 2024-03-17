@@ -436,8 +436,11 @@ export default class MeasuresControl {
     }
   }
 
+
   /**
-   * Handle optional projection
+   * Handle optional projection.
+   * Use the proj4 package to apply feature projection using options.projection.source and 
+   * options.projection.target as input projections.
    */
   _handleProjection(feature) {
     if (!(this.options?.projection?.source && this.options?.projection?.target)) {
@@ -445,18 +448,24 @@ export default class MeasuresControl {
       return;
     }
 
-    console.log("Project feature", feature);
+    const source = this.options.projection.source;
+    const target = this.options.projection.target;
+
+    console.log("Project feature", source, target);
 
     if (feature.geometry.type === 'Polygon') {
-      // feature.geometry.coordinates[0] = feature.geometry.coordinates[0].map(coord =>
-      //   proj4('EPSG:4326', 'EPSG:3857', coord)
-      // );
-     console.log("Project Polygon", feature, feature.geometry);
-    } else if (feature.geometry.type === 'LineString') {
-      console.log("Project LineString", feature, feature.geometry);
-      // feature.geometry.coordinates = feature.geometry.coordinates.map(coord =>
-      //   proj4('EPSG:4326', 'EPSG:3857', coord)
-      // );
+      console.log("Project Polygon1", feature.geometry.coordinates);
+      feature.geometry.coordinates = feature.geometry.coordinates.map(coord =>
+        proj4(source, target, coord)
+      );
+     console.log("Project Polygon2", feature.geometry.coordinates);
+    } 
+    else if (feature.geometry.type === 'LineString') {
+      console.log("Project LineString1", feature.geometry.coordinates);
+      feature.geometry.coordinates = feature.geometry.coordinates.map(coord =>
+        proj4(source, target, coord)
+      );
+      console.log("Project LineString2", feature.geometry.coordinates);
     }
   }
 
