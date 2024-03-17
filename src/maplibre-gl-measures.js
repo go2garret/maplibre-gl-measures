@@ -320,8 +320,13 @@ export default class MeasuresControl {
     }
     btn.addEventListener("click", () => {      
       this._drawCtrl.changeMode(mode);
-      const modeForSelect = mode == this._drawCtrl.modes.DRAW_LINE_STRING ? 'length' : 'area';
-      this.showUnitsSelect(modeForSelect);
+      console.log(mode, this._drawCtrl.modes.DRAW_LINE_STRING, this._drawCtrl.modes.DRAW_POLYGON);
+      const modeForSelect = this._drawCtrl.modes.DRAW_LINE_STRING ? 'length' : 'area';
+      try {
+        this.showUnitsSelect(modeForSelect);
+      } catch(e) {
+        console.error(e);
+      }      
     });
     this._container.appendChild(btn);
   }
@@ -568,7 +573,7 @@ export default class MeasuresControl {
           let areaConverted = this.convertUnit(area, 'm2', unitSelected);
           // Add properties to feature centroid
           let centroid = turf.centroid(feature);
-          let measurement = `${areaConverted} ${unitSelected}`;
+          let measurement = `${areaConverted}`;
           centroid.properties = {
             measurement
           };
@@ -584,7 +589,7 @@ export default class MeasuresControl {
             let lengthConverted = this.convertUnit(length, 'm', unitSelected);
             // Add properties to feature centroid
             let centroid = turf.centroid(segment);
-            let measurement = `${lengthConverted} ${unitSelected}`;
+            let measurement = `${lengthConverted}`;
             centroid.properties = {
               measurement
             };
