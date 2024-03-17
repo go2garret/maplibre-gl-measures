@@ -17,6 +17,7 @@ export default class MeasuresControl {
       maximumFractionDigits: 2,
       useGrouping: "always",
     };
+    this._addOptionalProj4Definitions();
     this._drawCtrl = new MapboxDraw({
       displayControlsDefault: false,
       styles: [
@@ -190,6 +191,37 @@ export default class MeasuresControl {
     this.initDrawBtn(this._drawCtrl.modes.DRAW_LINE_STRING);
     this.initDrawBtn(this._drawCtrl.modes.DRAW_POLYGON);
     this.initClearBtn();
+  }
+  
+  /**
+   * Add projection definitions for optional projections using proj4 package.
+   * Example: 'proj4.defs("EPSG:32617","+proj=utm +zone=17 +datum=WGS84 +units=m +no_defs +type=crs")'
+   * Requires options.projection.target.code and options.target.definition input parameters.
+   * @returns 
+   */
+  _addOptionalProj4Definitions() {
+    // Ignore if optional projection not included
+    if (!this.options?.projection || this.options?.projection == undefined) {
+      return;
+    }
+
+    // Target definition is required
+    if (!(this.options?.projection?.target?.code && this.options?.projection?.target?.definition)) {
+      console.error("Projection is given but target is not defined. Projection not applied.");
+      return;
+    }
+
+    // Add source definition; WGS84 is default
+    if (this.options?.projection?.source?.code && this.options?.projection?.source?.definition) {
+      proj4.defs(this.options.projection.source.code, this.options.projection.source.definition);
+    } else {
+      proj4.defs('WGS84', '+proj=longlat +datum=WGS84 +no_defs');
+    }
+
+    // Add target defition
+    if (this.options?.projection?.target?.code && this.options?.projection?.target?.definition) {
+      proj4.defs(this.options.projection.target.code, this.options.projection.target.definition);
+    }
   }
 
   _formatMeasure(dist, isAreaMeasurement = false) {
@@ -443,15 +475,27 @@ export default class MeasuresControl {
    * options.projection.target as input projections.
    */
   _handleProjection(feature) {
-    if (!(this.options?.projection?.source && this.options?.projection?.target)) {
-      console.log("Projection not given")
+    if (!(this.options?.projection && this.options?.projection?.target?.code && this.options?.target?.definition)) {
+      console.log("No projection");
       return;
     }
 
-    const source = this.options.projection.source;
-    const target = this.options.projection.target;
+    let source, target;
 
-    console.log("Project feature", source, target);
+    // Use WGS84 for default source projection
+    if (!(this.options?.projection?.source?.code && this.options?.projection?.target?.definition)) {
+      source = 'WGS84';
+    } else {
+      source = this.options.projection.source.code;
+    }
+
+    // Target projection is required
+    if (!(this.options?.projection?.target?.code && this.options?.projection?.target?.definition)) {
+      console.log("Projection target not defined")
+      return;
+    }
+
+    target = this.options.projection.target.code;
 
     if (feature.geometry.type === 'Polygon') {
       console.log("Project Polygon1", feature.geometry.coordinates);
