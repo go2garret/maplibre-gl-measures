@@ -444,11 +444,25 @@ export default class MeasuresControl {
       });
       this._map.on("draw.update", this._updateLabels.bind(this));
       this._map.on("draw.delete", this._updateLabels.bind(this));
+
+      // Create a debounced version of _updateLabels and _handleOnRender
+      const debouncedUpdateLabels = debounce(this._updateLabels, 200);
+      const debouncedHandleOnRender = debounce(this._handleOnRender, 200);
+
       this._map.on("draw.render", () => {
-        this._updateLabels();
-        this._handleOnRender();
+        debouncedUpdateLabels();
+        debouncedHandleOnRender();
       });
     }
+  }
+
+  // Simple debouncer
+  debounce(func, delay) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(this, args), delay);
+    };
   }
 
   _recreateSourceAndLayers() {
