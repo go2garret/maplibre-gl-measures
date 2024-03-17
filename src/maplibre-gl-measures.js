@@ -387,7 +387,8 @@ export default class MeasuresControl {
         { value: 'm2', label: 'm²' },
         { value: 'km2', label: 'km²' },
         { value: 'mi2', label: 'mi²' },
-        { value: 'ac2', label: 'ac²' },
+        { value: 'ac', label: 'ac' },
+        { value: 'ha', label: 'ha' },
     ];
 
     options.forEach(option => {
