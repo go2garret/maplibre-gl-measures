@@ -470,6 +470,7 @@ export default class MeasuresControl {
           "text-justify": "auto",
           "text-letter-spacing":
             this.options?.style?.text?.letterSpacing ?? 0.05,
+          'text-allow-overlap': this.options?.style?.text?.allowOverlap ?? false,
           "text-size": [
             "interpolate",
             ["linear"],
