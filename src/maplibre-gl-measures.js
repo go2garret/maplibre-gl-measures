@@ -475,7 +475,7 @@ export default class MeasuresControl {
    * options.projection.target as input projections.
    */
   _handleProjection(feature) {
-    if (!(this.options?.projection && this.options?.projection?.target?.code && this.options?.target?.definition)) {
+    if (!(this.options?.projection && this.options?.projection?.target?.code && this.options?.projection?.target?.definition)) {
       console.log("No projection");
       return;
     }
@@ -483,7 +483,7 @@ export default class MeasuresControl {
     let source, target;
 
     // Use WGS84 for default source projection
-    if (!(this.options?.projection?.source?.code && this.options?.projection?.target?.definition)) {
+    if (!(this.options?.projection?.source?.code && this.options?.projection?.source?.definition)) {
       source = 'WGS84';
     } else {
       source = this.options.projection.source.code;
