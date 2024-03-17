@@ -561,6 +561,7 @@ export default class MeasuresControl {
         if (feature.geometry.type == "Polygon") {
           // Convert Area
           let unitSelected = document.querySelector('.maplibre-gl-measures-area').value;
+          console.log("area selected", unitSelected);
           let area = (turf.area(feature));
           let areaConverted = this.convertUnit(area, 'm2', unitSelected);
           // Add properties to feature centroid
@@ -576,6 +577,7 @@ export default class MeasuresControl {
           segments.features.forEach((segment) => {
             // Convert Length
             let unitSelected = document.querySelector('.maplibre-gl-measures-length').value;
+            console.log("length selected", unitSelected);
             let length = (turf.length(segment) * 1000); //km to m
             let lengthConverted = this.convertUnit(length, 'm', unitSelected);
             // Add properties to feature centroid
@@ -589,6 +591,7 @@ export default class MeasuresControl {
         }
       } catch (e) {
         //Silently ignored
+        console.error(e);
       }
     });
     return {
