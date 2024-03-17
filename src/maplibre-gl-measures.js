@@ -250,6 +250,7 @@ export default class MeasuresControl {
   // }
 
   convertUnit(measure, fromUnit, toUnit) {
+    console.log("ConvertUnit0", measure, fromUnit, toUnit);
     const measureConvert = convert(measure).from(fromUnit).to(toUnit).val;
     console.log("ConvertUnit1", measureConvert, fromUnit, toUnit);
     const output = this._getLocaleNumber(measureConvert);
@@ -562,8 +563,8 @@ export default class MeasuresControl {
         if (feature.geometry.type == "Polygon") {
           // Convert Area
           let unitSelected = document.querySelector('.maplibre-gl-measures-select-area').value;
-          console.log("area selected", unitSelected);
           let area = (turf.area(feature));
+          console.log("area selected", unitSelected, area);
           let areaConverted = this.convertUnit(area, 'm2', unitSelected);
           // Add properties to feature centroid
           let centroid = turf.centroid(feature);
@@ -578,8 +579,8 @@ export default class MeasuresControl {
           segments.features.forEach((segment) => {
             // Convert Length
             let unitSelected = document.querySelector('.maplibre-gl-measures-select-length').value;
-            console.log("length selected", unitSelected);
             let length = (turf.length(segment) * 1000); //km to m
+            console.log("length selected", unitSelected, length);
             let lengthConverted = this.convertUnit(length, 'm', unitSelected);
             // Add properties to feature centroid
             let centroid = turf.centroid(segment);
