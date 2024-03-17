@@ -320,7 +320,7 @@ export default class MeasuresControl {
     }
     btn.addEventListener("click", () => {      
       this._drawCtrl.changeMode(mode);
-      const modeForSelect = this._drawCtrl.modes.DRAW_LINE_STRING ? 'length' : 'area';
+      const modeForSelect = mode == this._drawCtrl.modes.DRAW_LINE_STRING ? 'length' : 'area';
       this.showUnitsSelect(modeForSelect);
     });
     this._container.appendChild(btn);
