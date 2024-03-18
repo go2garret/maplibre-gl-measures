@@ -538,6 +538,7 @@ export default class MeasuresControl {
   _handleOnRender() {
     if (this.options && this.options.onRender !== null && this.options.onRender !== undefined) {
       const features = this._getDrawnFeatures();
+      console.log(features);
       // Return if no features drawn
       if (!features || !features.features || features.features == undefined || features.features.length < 1) {
         return;
