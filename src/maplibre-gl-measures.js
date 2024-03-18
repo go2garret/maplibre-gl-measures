@@ -459,22 +459,15 @@ export default class MeasuresControl {
   }
 
   // Simple debouncer
-  debounce(func, delay, runOnFirst = true) {
+  debounce(func, delay) {
     let timer;
     return function (...args) {
       const context = this;
-      const later = () => {
-        timer = null;
-        if (!runOnFirst) {
-          func.apply(context, args);
-        }
-      };
-      const callNow = runOnFirst && !timer;
-      clearTimeout(timer);
-      timer = setTimeout(later, delay);
-      if (callNow) {
+      const runFunc = () => {
         func.apply(context, args);
-      }
+      };
+      clearTimeout(timer);
+      timer = setTimeout(runFunc, delay);
     };
   }
 
