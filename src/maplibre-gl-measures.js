@@ -606,7 +606,8 @@ export default class MeasuresControl {
           let centroid = turf.centroid(feature);
           let measurement = `${areaConverted} ${unitSelected}`;
           centroid.properties = {
-            measurement
+            measurement,
+            area: areaConverted
           };
           features.push(centroid);
         } 
@@ -621,7 +622,8 @@ export default class MeasuresControl {
             let centroid = turf.centroid(segment);
             let measurement = `${lengthConverted} ${unitSelected}`;
             centroid.properties = {
-              measurement
+              measurement,
+              length: lengthConverted
             };
             features.push(centroid);
           });
