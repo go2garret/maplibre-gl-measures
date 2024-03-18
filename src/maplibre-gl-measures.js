@@ -617,9 +617,15 @@ export default class MeasuresControl {
             // Add properties to feature centroid
             let centroid = turf.centroid(segment);
             let measurement = `${lengthConverted} ${unitSelected}`;
+            try {
+              lengthConverted = parseFloat(lengthConverted).toFixed(2);
+            } catch(e) {
+              //
+            }            
             centroid.properties = {
               measurement,
-              length: lengthConverted
+              length: lengthConverted,
+              unit: unitSelected
             };
             features.push(centroid);
           });
