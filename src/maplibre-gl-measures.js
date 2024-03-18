@@ -543,11 +543,7 @@ export default class MeasuresControl {
       if (!features || !features.features || features.features == undefined || features.features.length < 1) {
         return;
       }
-      // Return if only feature is a point
-      if (features.features[0]?.geometry?.type == 'Point') {
-        return;        
-      }
-
+      
       // Pass drawn features to callback
       try {
         this.options.onRender(features);
