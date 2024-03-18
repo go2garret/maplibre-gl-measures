@@ -534,6 +534,15 @@ export default class MeasuresControl {
   _handleOnRender() {
     if (this.options && this.options.onRender !== null && this.options.onRender !== undefined) {
       const features = this._getDrawnFeatures();
+      // Return if no features drawn
+      if (!features || !features.features || features.features == undefined || features.features.length < 1) {
+        return;
+      }
+      // Return if only feature is a point
+      if (features.features[0]?.geometry?.type == 'Point') {
+        return;        
+      }
+
       // Pass drawn features to callback
       try {
         this.options.onRender(features);
