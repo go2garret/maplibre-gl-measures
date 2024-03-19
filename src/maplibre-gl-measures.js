@@ -446,13 +446,9 @@ export default class MeasuresControl {
       });
       this._map.on("draw.update", this._updateLabels.bind(this));
       this._map.on("draw.delete", this._updateLabels.bind(this));
-
-      this._updateLabels();
-      this._handleOnRender();
-
       this._map.on("draw.render", () => {
-        debouncedUpdateLabels();
-        debouncedHandleOnRender();
+        this._updateLabels();
+        this._handleOnRender();
       });
     }
   }
