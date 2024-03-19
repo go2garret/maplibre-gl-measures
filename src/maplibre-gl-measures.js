@@ -26,6 +26,9 @@ export default class MeasuresControl {
         direct_select: { ...MapboxDraw.modes.direct_select, dragFeature() {} },
       },
       displayControlsDefault: false,
+      controls: [
+        'trash'
+      ],
       styles: [
         // ACTIVE (being drawn)
         // line stroke
