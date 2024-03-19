@@ -447,28 +447,14 @@ export default class MeasuresControl {
       this._map.on("draw.update", this._updateLabels.bind(this));
       this._map.on("draw.delete", this._updateLabels.bind(this));
 
-      // Create a debounced version of _updateLabels and _handleOnRender
-      const debouncedUpdateLabels = this.debounce(this._updateLabels.bind(this), 200);
-      const debouncedHandleOnRender = this.debounce(this._handleOnRender.bind(this), 200);
+      this._updateLabels();
+      this._handleOnRender();
 
       this._map.on("draw.render", () => {
         debouncedUpdateLabels();
         debouncedHandleOnRender();
       });
     }
-  }
-
-  // Simple debouncer
-  debounce(func, delay) {
-    let timer;
-    return function (...args) {
-      const context = this;
-      const runFunc = () => {
-        func.apply(context, args);
-      };
-      clearTimeout(timer);
-      timer = setTimeout(runFunc, delay);
-    };
   }
 
   _recreateSourceAndLayers() {
@@ -487,7 +473,7 @@ export default class MeasuresControl {
             this.options?.style?.text?.font ?? "Klokantech Noto Sans Bold",
           ],
           "text-field": ["get", "measurement"],
-          "text-anchor": "center",
+          "text-variable-anchor": ["top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"],
           "text-radial-offset": this.options?.style?.text?.radialOffset ?? 0.5,
           "text-justify": "auto",
           "text-letter-spacing":
@@ -645,6 +631,8 @@ export default class MeasuresControl {
       features: features,
     };
   }
+
+  delete
 
   onRemove() {
     this._container.parentNode.removeChild(this._container);
