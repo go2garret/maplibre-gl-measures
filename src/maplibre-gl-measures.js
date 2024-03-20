@@ -682,17 +682,14 @@ export default class MeasuresControl {
   }
 
   /**
- * Call enable() function to enable draw control
- */
-  enable() {
-    this._drawCtrl.enable();
-  }
-
-  /**
    * Call disable() function to disable draw control
    */
-  disable() {
-    this._drawCtrl.disable();
+  changeMode(mode) {
+    try {
+      this._drawCtrl.changeMode(mode);
+    } catch(e) {
+      throw e;
+    }    
   }
 
   //
