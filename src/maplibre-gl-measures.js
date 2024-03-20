@@ -224,6 +224,10 @@ export default class MeasuresControl {
       title.innerHTML = this.options.title;
       this._header.appendChild(title);
     }
+    // Add body
+    this._body = document.createElement("div");
+    this._body.classList.add("maplibre-gl-measures-body");
+    this._container.appendChild(this._body);
     // Add select unit options
     this.initLengthUnitsSelect();
     this.initAreaUnitsSelect();
@@ -348,7 +352,7 @@ export default class MeasuresControl {
         });
         break;
     }
-    this._container.appendChild(btn);
+    this._body.appendChild(btn);
   }
 
   initClearBtn() {
@@ -380,7 +384,7 @@ export default class MeasuresControl {
       this._updateLabels();
       this.showUnitsSelect(null);
     });
-    this._container.appendChild(btn);
+    this._body.appendChild(btn);
   }
 
   showUnitsSelect(mode) {
