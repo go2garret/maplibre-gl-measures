@@ -657,8 +657,10 @@ export default class MeasuresControl {
           });
         }
       } catch (e) {
-        //Silently ignored
-        console.error(e);
+        // Silently ignored by default
+        if (this.options?.suppressErrors === false) {
+          console.error(e);
+        }
       }
     });
     this.drawnFeatures = {
