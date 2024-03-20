@@ -468,6 +468,8 @@ export default class MeasuresControl {
         this._updateLabels();
         this._handleOnRender();
       });
+      this._map.on("click", () => this.handleDrawnFeatureClick.bind(this));
+      
     }
   }
 
