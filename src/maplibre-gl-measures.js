@@ -657,7 +657,6 @@ export default class MeasuresControl {
 
   //
   handleDrawnFeatureClick(e) {
-    console.log("Draw Click", e, this.options.onFeatureClick);
     const featureIds = this._drawCtrl.getFeatureIdsAt(e.point);
     const feature = this._drawCtrl.get(featureIds[0]);
 
