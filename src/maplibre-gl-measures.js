@@ -12,6 +12,7 @@ const SOURCE_DATA = {
 export default class MeasuresControl {
   constructor(options) {
     this.options = options;
+    this.drawnFeatures = [];
     this._numberFormattingOptions = {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -542,7 +543,7 @@ export default class MeasuresControl {
    */
   _handleOnDelete() {
     if (this.options && this.options.onDelete !== null && this.options.onDelete !== undefined) {
-      const features = this._getDrawnFeatures();      
+      const features = this.drawnFeatures;      
       // Pass drawn features to callback
       try {
         this.options.onDelete(features);
@@ -554,7 +555,7 @@ export default class MeasuresControl {
 
   _handleOnRender() {
     if (this.options && this.options.onRender !== null && this.options.onRender !== undefined) {
-      const features = this._getDrawnFeatures();
+      const features = this.drawnFeatures;
       // Return if no features drawn
       if (!features || !features.features || features.features == undefined || features.features.length < 1) {
         return;
@@ -574,7 +575,7 @@ export default class MeasuresControl {
    */
   _handleOnCreate() {
     if (this.options && this.options.onCreate !== null && this.options.onCreate !== undefined) {
-      const features = this._getDrawnFeatures();
+      const features = this.drawnFeatures;
       // Pass drawn features to callback
       try {
         this.options.onCreate(features);
@@ -584,6 +585,9 @@ export default class MeasuresControl {
     }
   }
 
+  /**
+   * Updates Labels and triggers new getDrawnFeaturesa
+   */
   _updateLabels() {
     let source = this._map.getSource(DRAW_LABELS_SOURCE_ID);
     if (!source && this._map) {
@@ -657,10 +661,11 @@ export default class MeasuresControl {
         console.error(e);
       }
     });
-    return {
+    this.drawnFeatures = {
       type: "FeatureCollection",
       features: features,
     };
+    return this.drawnFeatures;
   }
 
   /**
