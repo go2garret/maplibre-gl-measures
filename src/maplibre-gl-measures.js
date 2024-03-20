@@ -631,7 +631,9 @@ export default class MeasuresControl {
     };
   }
 
-  delete
+  trash() {
+    this._drawCtrl.trash();
+  }
 
   onRemove() {
     this._container.parentNode.removeChild(this._container);
