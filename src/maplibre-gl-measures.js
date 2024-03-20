@@ -46,10 +46,10 @@ export default class MeasuresControl {
           },
           paint: {
             "line-color":
-              this.options?.style?.lengthMeasurement?.lineColorActive ?? "#D20C0C",
+              this.options?.style?.lengthMeasurement?.lineColor ?? "#D20C0C",
             "line-dasharray": [0.2, 2],
             "line-width":
-              this.options?.style?.lengthMeasurement?.lineWidthActive ?? 2,
+              this.options?.style?.lengthMeasurement?.lineWidth ?? 2,
           },
         },
         // polygon fill
@@ -61,7 +61,7 @@ export default class MeasuresControl {
             "fill-color":
               this.options?.style?.areaMeasurement?.fillColor ?? "#D20C0C",
             "fill-outline-color":
-              this.options?.style?.areaMeasurement?.fillOutlineColorActive ??
+              this.options?.style?.areaMeasurement?.fillOutlineColor ??
               "#D20C0C",
             "fill-opacity":
               this.options?.style?.areaMeasurement?.fillOpacity ?? 0.1,
@@ -108,9 +108,9 @@ export default class MeasuresControl {
           ],
           paint: {
             "circle-radius":
-              this.options?.style?.common?.vertexHaloRadiusActive ?? 6,
+              this.options?.style?.common?.midPointHaloRadius ?? 3,
             "circle-color":
-              this.options?.style?.common?.vertexHaloColorActive ?? "#FFF",
+              this.options?.style?.common?.midPointHaloColor ?? "#FFF",
           },
         },
         // vertex points
@@ -129,6 +129,21 @@ export default class MeasuresControl {
               this.options?.style?.common?.midPointColor ?? "#fbb03b",
           },
         },
+
+        // active selected vertex
+        {
+          'id': 'gl-draw-point-active',
+          'type': 'circle',
+          'filter': ['all',
+            ['==', '$type', 'Point'],
+            ['!=', 'meta', 'midpoint'],
+            ['==', 'active', 'true']],
+          'paint': {
+            'circle-radius': this.options?.style?.common?.activePointRadius ?? 6,
+            'circle-color': this.options?.style?.common?.activePointColor ?? "#D20C0C"
+          }
+        },
+
 
         // INACTIVE (static, already drawn)
         // line stroke
