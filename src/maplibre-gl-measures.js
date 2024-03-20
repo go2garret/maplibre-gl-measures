@@ -211,10 +211,10 @@ export default class MeasuresControl {
   _initControl() {
     //Add control container
     this._container = document.createElement("div");
-    this._container.className = "maplibregl-ctrl mapboxgl-ctrl maplibregl-measures maplibregl-ctrl-group mapboxgl-ctrl-group";
+    this._container.className = "maplibre-gl-ctrl mapboxgl-ctrl maplibre-gl-measures maplibre-gl-ctrl-group mapboxgl-ctrl-group";
     // Add header
     this._header = document.createElement("div");
-    this._header.classList.add("maplibregl-measures-header");
+    this._header.classList.add("maplibre-gl-measures-header");
     this._header.style.display = 'flex';
     this._header.style['align-items'] = 'center';
     this._container.appendChild(this._header);
