@@ -542,12 +542,7 @@ export default class MeasuresControl {
    */
   _handleOnDelete() {
     if (this.options && this.options.onDelete !== null && this.options.onDelete !== undefined) {
-      const features = this._getDrawnFeatures();
-      // Return if no features drawn
-      if (!features || !features.features || features.features == undefined || features.features.length < 1) {
-        return;
-      }
-      
+      const features = this._getDrawnFeatures();      
       // Pass drawn features to callback
       try {
         this.options.onDelete(features);
