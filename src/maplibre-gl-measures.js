@@ -463,7 +463,10 @@ export default class MeasuresControl {
         this._handleOnCreate();
       });
       this._map.on("draw.update", this._updateLabels.bind(this));
-      this._map.on("draw.delete", this._updateLabels.bind(this));
+      this._map.on("draw.delete", () => {
+        this._updateLabels();
+        this._handleOnDelete();
+      });
       this._map.on("draw.render", () => {
         this._updateLabels();
         this._handleOnRender();
@@ -537,6 +540,23 @@ export default class MeasuresControl {
   /**
    * Handles the optional onRender callback provided in the options
    */
+  _handleOnDelete() {
+    if (this.options && this.options.onDelete !== null && this.options.onDelete !== undefined) {
+      const features = this._getDrawnFeatures();
+      // Return if no features drawn
+      if (!features || !features.features || features.features == undefined || features.features.length < 1) {
+        return;
+      }
+      
+      // Pass drawn features to callback
+      try {
+        this.options.onDelete(features);
+      } catch(e) {
+        console.error(e);
+      }
+    }
+  }
+
   _handleOnRender() {
     if (this.options && this.options.onRender !== null && this.options.onRender !== undefined) {
       const features = this._getDrawnFeatures();
