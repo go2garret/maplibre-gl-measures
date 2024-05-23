@@ -607,6 +607,7 @@ export default class MeasuresControl {
     // }
 
     const data = this._getDrawnFeatures();
+    console.log("Draw Features", data);
     // instead of doing setData, maybe try doing setFeatureProperty on the udpated feature
     source.setData(data);
     this._reorderLayers();
