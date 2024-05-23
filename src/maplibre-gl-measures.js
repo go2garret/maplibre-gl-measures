@@ -472,8 +472,8 @@ export default class MeasuresControl {
         this._updateLabels();
         this._handleOnDelete();
       });
-      this._map.on("draw.render", () => {
-        this._updateLabels();
+      this._map.on("draw.render", (e) => {
+        this._updateLabels(e);
         this._handleOnRender();
       });
       this._map.on("click", () => this.handleDrawnFeatureClick.bind(this));
@@ -592,15 +592,22 @@ export default class MeasuresControl {
   /**
    * Updates Labels and triggers new getDrawnFeaturesa
    */
-  _updateLabels() {
-    let source = this._map.getSource(DRAW_LABELS_SOURCE_ID);
-    if (!source && this._map) {
-      // in case of the source is somehow missing, recreate and empty one
-      this._recreateSourceAndLayers();
-      source = this._map.getSource(DRAW_LABELS_SOURCE_ID);
+  _updateLabels(event = null) {
+    if (event) {
+      //limit updates to only feature in event
+      console.log("label limit updates", event);
     }
 
+    // -- Testing take this out, why needed?
+    // let source = this._map.getSource(DRAW_LABELS_SOURCE_ID);
+    // if (!source && this._map) {
+    //   // in case of the source is somehow missing, recreate and empty one
+    //   this._recreateSourceAndLayers();
+    //   source = this._map.getSource(DRAW_LABELS_SOURCE_ID);
+    // }
+
     const data = this._getDrawnFeatures();
+    // instead of doing setData, maybe try doing setFeatureProperty on the udpated feature
     source.setData(data);
     this._reorderLayers();
   }
@@ -615,11 +622,12 @@ export default class MeasuresControl {
     let features = [];
     // Generate features from what we have on the drawControl:
     let drawnFeatures = this._drawCtrl.getAll();
+    let unitSelected = document.querySelector('.maplibre-gl-measures-select-area').value;
+
     drawnFeatures.features.forEach((feature) => {
       try {        
         if (feature.geometry.type == "Polygon") {
           // Convert Area
-          let unitSelected = document.querySelector('.maplibre-gl-measures-select-area').value;
           let area = (turf.area(feature));
           let areaConverted = this.convertUnit(area, 'm2', unitSelected);
           // Add properties to feature centroid
@@ -639,9 +647,9 @@ export default class MeasuresControl {
         } 
         else if (feature.geometry.type == "LineString") {
           let segments = turf.lineSegment(feature);
+          // let unitSelected = document.querySelector('.maplibre-gl-measures-select-length').value;
           segments.features.forEach((segment) => {
             // Convert Length
-            let unitSelected = document.querySelector('.maplibre-gl-measures-select-length').value;
             let length = (turf.length(segment) * 1000); //km to m
             let lengthConverted = this.convertUnit(length, 'm', unitSelected);
             // Add properties to feature centroid
